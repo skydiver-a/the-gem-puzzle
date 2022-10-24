@@ -30,11 +30,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Timer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Timer */ "./src/js/Timer.js");
 /* harmony import */ var _Stats__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Stats */ "./src/js/Stats.js");
 /* harmony import */ var _Tile__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Tile */ "./src/js/Tile.js");
+/* harmony import */ var _Score__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Score */ "./src/js/Score.js");
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-//import { Color } from './Color';
+
 
 
 var Game = /*#__PURE__*/function () {
@@ -45,7 +49,6 @@ var Game = /*#__PURE__*/function () {
     this.tiles = []; // cells
 
     this.timer = new _Timer__WEBPACK_IMPORTED_MODULE_0__.Timer();
-    //this.color = new Color();
     this.stats = new _Stats__WEBPACK_IMPORTED_MODULE_1__.Stats();
     this.moveCounter = 0;
     this.moves = [];
@@ -63,7 +66,14 @@ var Game = /*#__PURE__*/function () {
           this.tiles[i].isEmpty = true;
         }
       }
+      // set the background color
       this.setBackgroundColor();
+
+      // create HTML structure
+      var container = this.buildHTMLElement('div', document.body, [{
+        name: 'class',
+        value: 'container'
+      }]);
       return;
     }
   }, {
@@ -84,9 +94,59 @@ var Game = /*#__PURE__*/function () {
       var angle = 'to right';
       document.body.style.background = "linear-gradient(".concat(angle, ", ").concat(leftColor, ", ").concat(rightColor, ")");
     }
+  }, {
+    key: "buildHTMLElement",
+    value: function buildHTMLElement(tagName) {
+      var parent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+      var attr = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+      var element = document.createElement(tagName);
+      if (attr) {
+        var _iterator = _createForOfIteratorHelper(attr),
+          _step;
+        try {
+          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+            var _step$value = _step.value,
+              name = _step$value.name,
+              value = _step$value.value;
+            element.setAttribute(name, value);
+          }
+        } catch (err) {
+          _iterator.e(err);
+        } finally {
+          _iterator.f();
+        }
+      }
+      if (parent) {
+        parent.appendChild(element);
+      }
+      return element;
+    }
   }]);
   return Game;
 }();
+
+/***/ }),
+
+/***/ "./src/js/Score.js":
+/*!*************************!*\
+  !*** ./src/js/Score.js ***!
+  \*************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Score": () => (/* binding */ Score)
+/* harmony export */ });
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var Score = /*#__PURE__*/_createClass(function Score(time, moves, level) {
+  _classCallCheck(this, Score);
+  this.time = time;
+  this.moves = moves;
+  this.level = level;
+  this.rating = Math.round(1000 / (this.time + this.moves) + Math.pow(3, this.level));
+});
 
 /***/ }),
 
