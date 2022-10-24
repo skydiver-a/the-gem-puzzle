@@ -1,3 +1,5 @@
+import { Game } from './js/Game';
 import './sass/style.scss';
 
-console.log("Starting");
+
+new Game().init();
