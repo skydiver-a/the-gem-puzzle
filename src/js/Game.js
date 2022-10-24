@@ -1,7 +1,7 @@
 import { Timer } from './Timer';
-//import { Color } from './Color';
 import { Stats } from './Stats';
 import { Tile } from './Tile';
+import { Score } from './Score';
 
 export class Game {
   constructor(level = 4) {
@@ -9,7 +9,6 @@ export class Game {
     this.tiles = [];  // cells
 
     this.timer = new Timer();
-    //this.color = new Color();
     this.stats = new Stats();
 
     this.moveCounter = 0;
@@ -28,8 +27,11 @@ export class Game {
         this.tiles[i].isEmpty = true;
       }
     }
-
+    // set the background color
     this.setBackgroundColor();
+
+    // create HTML structure
+    const container = this.buildHTMLElement('div', document.body, [{name: 'class', value: 'container'}]);
     return;
   }
 
@@ -48,5 +50,18 @@ export class Game {
     const angle = 'to right';
 
     document.body.style.background = `linear-gradient(${angle}, ${leftColor}, ${rightColor})`;
+  }
+
+  buildHTMLElement(tagName, parent = null, attr = null) {
+    const element = document.createElement(tagName);
+    if (attr) {
+      for (const {name, value} of attr) {
+        element.setAttribute(name, value);
+      }
+    }
+    if (parent) {
+      parent.appendChild(element);
+    }
+    return element;
   }
 }
