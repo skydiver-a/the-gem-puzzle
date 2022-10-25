@@ -70,10 +70,7 @@ var Game = /*#__PURE__*/function () {
       this.setBackgroundColor();
 
       // create HTML structure
-      var container = this.buildHTMLElement('div', document.body, [{
-        name: 'class',
-        value: 'container'
-      }]);
+      this.createHTMLStructure();
       return;
     }
   }, {
@@ -93,6 +90,31 @@ var Game = /*#__PURE__*/function () {
       var rightColor = this.getRandomColor();
       var angle = 'to right';
       document.body.style.background = "linear-gradient(".concat(angle, ", ").concat(leftColor, ", ").concat(rightColor, ")");
+    }
+  }, {
+    key: "createHTMLStructure",
+    value: function createHTMLStructure() {
+      var wrapper = this.buildHTMLElement('div', document.body, [{
+        name: 'class',
+        value: 'wrapper'
+      }]);
+      var container = this.buildHTMLElement('div', wrapper, [{
+        name: 'class',
+        value: 'container'
+      }]);
+      var infoPanel = this.buildHTMLElement('div', container, [{
+        name: 'class',
+        value: "panel"
+      }]);
+      this.createInfoPanel(infoPanel);
+      var gameField = this.buildHTMLElement('div', container, [{
+        name: 'class',
+        value: "field"
+      }]);
+      var settingPanel = this.buildHTMLElement('div', container, [{
+        name: 'class',
+        value: "panel"
+      }]);
     }
   }, {
     key: "buildHTMLElement",
@@ -120,6 +142,24 @@ var Game = /*#__PURE__*/function () {
         parent.appendChild(element);
       }
       return element;
+    }
+  }, {
+    key: "createInfoPanel",
+    value: function createInfoPanel(parent) {
+      var _this = this;
+      var time = this.buildHTMLElement('div', parent, [{
+        name: 'class',
+        value: "time"
+      }]);
+      var moves = this.buildHTMLElement('div', parent, [{
+        name: 'class',
+        value: 'moves'
+      }]);
+      time.textContent = "Time: ".concat(this.timer.get());
+      moves.textContent = "Moves: ".concat(this.moveCounter);
+      setInterval(function () {
+        time.textContent = "Time: ".concat(_this.timer.get());
+      }, 1000);
     }
   }]);
   return Game;

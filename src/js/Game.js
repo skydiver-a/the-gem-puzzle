@@ -31,7 +31,7 @@ export class Game {
     this.setBackgroundColor();
 
     // create HTML structure
-    const container = this.buildHTMLElement('div', document.body, [{name: 'class', value: 'container'}]);
+    this.createHTMLStructure();
     return;
   }
 
@@ -52,6 +52,15 @@ export class Game {
     document.body.style.background = `linear-gradient(${angle}, ${leftColor}, ${rightColor})`;
   }
 
+  createHTMLStructure() {
+    const wrapper = this.buildHTMLElement('div', document.body, [{name: 'class', value: 'wrapper'}]);
+    const container = this.buildHTMLElement('div', wrapper, [{name: 'class', value: 'container'}]);
+    const infoPanel = this.buildHTMLElement('div', container, [{name: 'class', value: "panel"}]);
+    this.createInfoPanel(infoPanel);
+    const gameField = this.buildHTMLElement('div', container, [{name: 'class', value: "field"}]);
+    const settingPanel = this.buildHTMLElement('div', container, [{name: 'class', value: "panel"}]);
+  }
+
   buildHTMLElement(tagName, parent = null, attr = null) {
     const element = document.createElement(tagName);
     if (attr) {
@@ -63,5 +72,15 @@ export class Game {
       parent.appendChild(element);
     }
     return element;
+  }
+
+  createInfoPanel(parent) {
+    const time = this.buildHTMLElement('div', parent, [{name: 'class', value: "time"}]);
+    const moves = this.buildHTMLElement('div', parent, [{name: 'class', value: 'moves'}]);
+    time.textContent = `Time: ${this.timer.get()}`;
+    moves.textContent = `Moves: ${this.moveCounter}`;
+    setInterval(() => {
+      time.textContent = `Time: ${this.timer.get()}`;
+    }, 1000);
   }
 }
