@@ -55,6 +55,7 @@ export class Game {
   createHTMLStructure() {
     const wrapper = this.buildHTMLElement('div', document.body, [{name: 'class', value: 'wrapper'}]);
     const container = this.buildHTMLElement('div', wrapper, [{name: 'class', value: 'container'}]);
+
     const infoPanel = this.buildHTMLElement('div', container, [{name: 'class', value: "panel"}]);
     this.createInfoPanel(infoPanel);
 
@@ -75,7 +76,7 @@ export class Game {
       this.reset();
       document.body.classList.add('untouchable');
     });
-    this.createLevels(controlPanel, 3, 8, (e) => {
+    this.createLevels(controlPanel, 3, 8, this.level, (e) => {
       this.setLevel(Number(e.target.value));
       this.reset();
       this.redraw();
@@ -111,8 +112,17 @@ export class Game {
     btn.addEventListener('click', callback);
   }
 
-  createLevels() {
-    return;
+  createLevels(parent, optionFirst, optionLast, level, callback) {
+    const select = this.buildHTMLElement('select', parent, [{name: 'class', value: 'level'}]);
+    for (let i = optionFirst; i <= optionLast; ++i) {
+      const option = this.buildHTMLElement('option', select, [{name: 'value', value: `${i}`}]);
+      option.textContent = `${i}x${i}`;
+
+      if (i === level) {
+        option.setAttribute('selected', 'selected');
+      }
+    }
+    select.addEventListener('change', callback);
   }
 
   setLevel() {
