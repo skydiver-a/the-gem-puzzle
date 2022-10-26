@@ -15,7 +15,7 @@ export class Game {
     this.moves = [];
     this.firstClick = true;
 
-    this.tileSize = 100;
+    this.tileSize = 75;
   }
 
   init() {
@@ -57,8 +57,29 @@ export class Game {
     const container = this.buildHTMLElement('div', wrapper, [{name: 'class', value: 'container'}]);
     const infoPanel = this.buildHTMLElement('div', container, [{name: 'class', value: "panel"}]);
     this.createInfoPanel(infoPanel);
+
     const gameField = this.buildHTMLElement('div', container, [{name: 'class', value: "field"}]);
-    const settingPanel = this.buildHTMLElement('div', container, [{name: 'class', value: "panel"}]);
+    gameField.style.width = `${this.tileSize * this.level}px`;
+    gameField.style.height = `${this.tileSize * this.level}px`;
+
+    const controlPanel = this.buildHTMLElement('div', container, [{name: 'class', value: "panel"}]);
+    this.createButton(controlPanel, 'New Game', () => {
+      this.reset();
+      this.redraw();
+    });
+    this.createButton(controlPanel, 'Scores', () => {
+      this.showModal();
+    });
+    this.createButton(controlPanel, 'Solve', () => {
+      this.solve();
+      this.reset();
+      document.body.classList.add('untouchable');
+    });
+    this.createLevels(controlPanel, 3, 8, (e) => {
+      this.setLevel(Number(e.target.value));
+      this.reset();
+      this.redraw();
+    });
   }
 
   buildHTMLElement(tagName, parent = null, attr = null) {
@@ -82,5 +103,35 @@ export class Game {
     setInterval(() => {
       time.textContent = `Time: ${this.timer.get()}`;
     }, 1000);
+  }
+
+  createButton(parent, content, callback) {
+    const btn = this.buildHTMLElement('button', parent, [{name: 'class', value: 'button'}, {name: 'class', value: 'btn'}]);
+    btn.innerHTML = content;
+    btn.addEventListener('click', callback);
+  }
+
+  createLevels() {
+    return;
+  }
+
+  setLevel() {
+    return;
+  }
+
+  reset() {
+    return;
+  }
+
+  redraw() {
+    return;
+  }
+
+  showModal() {
+    return;
+  }
+
+  solve() {
+    return;
   }
 }

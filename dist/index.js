@@ -53,7 +53,7 @@ var Game = /*#__PURE__*/function () {
     this.moveCounter = 0;
     this.moves = [];
     this.firstClick = true;
-    this.tileSize = 100;
+    this.tileSize = 75;
   }
   _createClass(Game, [{
     key: "init",
@@ -94,6 +94,7 @@ var Game = /*#__PURE__*/function () {
   }, {
     key: "createHTMLStructure",
     value: function createHTMLStructure() {
+      var _this = this;
       var wrapper = this.buildHTMLElement('div', document.body, [{
         name: 'class',
         value: 'wrapper'
@@ -111,10 +112,29 @@ var Game = /*#__PURE__*/function () {
         name: 'class',
         value: "field"
       }]);
-      var settingPanel = this.buildHTMLElement('div', container, [{
+      gameField.style.width = "".concat(this.tileSize * this.level, "px");
+      gameField.style.height = "".concat(this.tileSize * this.level, "px");
+      var controlPanel = this.buildHTMLElement('div', container, [{
         name: 'class',
         value: "panel"
       }]);
+      this.createButton(controlPanel, 'New Game', function () {
+        _this.reset();
+        _this.redraw();
+      });
+      this.createButton(controlPanel, 'Scores', function () {
+        _this.showModal();
+      });
+      this.createButton(controlPanel, 'Solve', function () {
+        _this.solve();
+        _this.reset();
+        document.body.classList.add('untouchable');
+      });
+      this.createLevels(controlPanel, 3, 8, function (e) {
+        _this.setLevel(Number(e.target.value));
+        _this.reset();
+        _this.redraw();
+      });
     }
   }, {
     key: "buildHTMLElement",
@@ -146,7 +166,7 @@ var Game = /*#__PURE__*/function () {
   }, {
     key: "createInfoPanel",
     value: function createInfoPanel(parent) {
-      var _this = this;
+      var _this2 = this;
       var time = this.buildHTMLElement('div', parent, [{
         name: 'class',
         value: "time"
@@ -158,8 +178,51 @@ var Game = /*#__PURE__*/function () {
       time.textContent = "Time: ".concat(this.timer.get());
       moves.textContent = "Moves: ".concat(this.moveCounter);
       setInterval(function () {
-        time.textContent = "Time: ".concat(_this.timer.get());
+        time.textContent = "Time: ".concat(_this2.timer.get());
       }, 1000);
+    }
+  }, {
+    key: "createButton",
+    value: function createButton(parent, content, callback) {
+      var btn = this.buildHTMLElement('button', parent, [{
+        name: 'class',
+        value: 'button'
+      }, {
+        name: 'class',
+        value: 'btn'
+      }]);
+      btn.innerHTML = content;
+      btn.addEventListener('click', callback);
+    }
+  }, {
+    key: "createLevels",
+    value: function createLevels() {
+      return;
+    }
+  }, {
+    key: "setLevel",
+    value: function setLevel() {
+      return;
+    }
+  }, {
+    key: "reset",
+    value: function reset() {
+      return;
+    }
+  }, {
+    key: "redraw",
+    value: function redraw() {
+      return;
+    }
+  }, {
+    key: "showModal",
+    value: function showModal() {
+      return;
+    }
+  }, {
+    key: "solve",
+    value: function solve() {
+      return;
     }
   }]);
   return Game;
