@@ -130,7 +130,7 @@ var Game = /*#__PURE__*/function () {
         _this.reset();
         document.body.classList.add('untouchable');
       });
-      this.createLevels(controlPanel, 3, 8, function (e) {
+      this.createLevels(controlPanel, 3, 8, this.level, function (e) {
         _this.setLevel(Number(e.target.value));
         _this.reset();
         _this.redraw();
@@ -196,8 +196,22 @@ var Game = /*#__PURE__*/function () {
     }
   }, {
     key: "createLevels",
-    value: function createLevels() {
-      return;
+    value: function createLevels(parent, optionFirst, optionLast, level, callback) {
+      var select = this.buildHTMLElement('select', parent, [{
+        name: 'class',
+        value: 'level'
+      }]);
+      for (var i = optionFirst; i <= optionLast; ++i) {
+        var option = this.buildHTMLElement('option', select, [{
+          name: 'value',
+          value: "".concat(i)
+        }]);
+        option.textContent = "".concat(i, "x").concat(i);
+        if (i === level) {
+          option.setAttribute('selected', 'selected');
+        }
+      }
+      select.addEventListener('change', callback);
     }
   }, {
     key: "setLevel",
